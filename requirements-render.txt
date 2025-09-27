@@ -1,0 +1,11 @@
+Django==5.0.6
+django-allauth
+django-countries
+django-crispy-forms
+crispy-bootstrap4
+python-decouple
+razorpay
+dj-database-url
+whitenoise
+gunicorn
+psycopg2-binary
