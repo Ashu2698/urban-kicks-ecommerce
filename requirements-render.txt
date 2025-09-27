@@ -12,3 +12,4 @@ psycopg2-binary
 PyJWT
 cryptography
 requests-oauthlib
+weasyprint==62.3
