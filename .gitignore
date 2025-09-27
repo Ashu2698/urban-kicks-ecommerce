@@ -1,0 +1,17 @@
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+env/
+pip-log.txt
+db.sqlite3
+staticfiles/
+media/
+.env
+.DS_Store
+Thumbs.db
+node_modules/
+*.log
