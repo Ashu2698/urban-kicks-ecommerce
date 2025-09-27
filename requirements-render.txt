@@ -10,3 +10,5 @@ whitenoise
 gunicorn
 psycopg2-binary
 PyJWT
+cryptography
+requests-oauthlib
