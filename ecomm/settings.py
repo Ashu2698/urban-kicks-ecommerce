@@ -25,26 +25,9 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", cast=bool)
+DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'yourusername.pythonanywhere.com']
-
-# Database configuration for PythonAnywhere (MySQL)
-if 'PYTHONANYWHERE_DOMAIN' in os.environ:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'yourusername$ecommerce',
-            'USER': 'yourusername',
-            'PASSWORD': 'your-mysql-password',
-            'HOST': 'yourusername.mysql.pythonanywhere-services.com',
-            'PORT': '3306',
-        }
-    }
-
-# Static files configuration
-STATIC_ROOT = '/home/yourusername/mysite/staticfiles'
-MEDIA_ROOT = '/home/yourusername/mysite/media'
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.render.com', '.onrender.com']
 
 # Application definition
 
@@ -153,9 +136,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ecomm.wsgi.application'
 
-# Database
+# Database configuration
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# Default to SQLite for local development
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -163,7 +147,7 @@ DATABASES = {
     }
 }
 
-# Use PostgreSQL if DATABASE_URL is provided (Railway)
+# Use PostgreSQL if DATABASE_URL is provided (Render production)
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
         'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
@@ -207,6 +191,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+# Static files storage for production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'public/media')
@@ -264,5 +251,12 @@ LOGOUT_REDIRECT_URL = "/"
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
-DEFAULT_DOMAIN = '127.0.0.1:8000'
-DEFAULT_HTTP_PROTOCOL = 'http'
+# Update for production deployment
+if 'DATABASE_URL' in os.environ:
+    # Production settings
+    DEFAULT_DOMAIN = config('RENDER_EXTERNAL_HOSTNAME', default='localhost')
+    DEFAULT_HTTP_PROTOCOL = 'https'
+else:
+    # Development settings
+    DEFAULT_DOMAIN = '127.0.0.1:8000'
+    DEFAULT_HTTP_PROTOCOL = 'http'
