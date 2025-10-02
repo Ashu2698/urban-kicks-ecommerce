@@ -31,7 +31,6 @@ INSTALLED_APPS = [
     "products",
     "accounts",
     "home",
-    "allauth",
     "allauth.account",
     "allauth.socialaccount",
 ]
@@ -47,7 +46,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "ecomm.urls"
-
+SITE_ID = 1
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
