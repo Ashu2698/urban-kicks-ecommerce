@@ -42,7 +42,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "urban_kicks.urls"
+ROOT_URLCONF = "ecomm.urls"
 
 TEMPLATES = [
     {
