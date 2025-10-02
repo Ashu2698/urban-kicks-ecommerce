@@ -28,25 +28,43 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    
+    # Your Apps
     "products",
     "accounts",
     "home",
-    "allauth.account",
     
+    # ADDED: Required allauth apps and dependencies
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount', # If you use social login
+    
+    # ADDED: Third-party apps from requirements.txt
+    'crispy_forms',
+    'crispy_bootstrap4',
+    'django_countries',
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    # ADDED: Whitenoise middleware for serving static files in production
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # ADDED: The allauth middleware that was causing your last error
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "ecomm.urls"
+
+# ADDED: Required setting for django.contrib.sites
 SITE_ID = 1
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -55,6 +73,7 @@ TEMPLATES = [
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
+                # ADDED: This is required by allauth
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
@@ -63,6 +82,8 @@ TEMPLATES = [
     },
 ]
 
+# Note: Your traceback showed 'ecomm' as your project. If 'urban_kicks' is wrong,
+# change this to "ecomm.wsgi.application"
 WSGI_APPLICATION = "urban_kicks.wsgi.application"
 
 # ---------------------------
@@ -111,6 +132,9 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+# ADDED: Whitenoise configuration for production static files
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
@@ -118,3 +142,22 @@ MEDIA_ROOT = BASE_DIR / "media"
 # Default Primary Key
 # ---------------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# ---------------------------
+# ADDED: Required Configurations
+# ---------------------------
+
+# Authentication Backends for allauth
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# Crispy Forms Settings
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+# Allauth Optional Settings
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_REQUIRED = True
