@@ -61,6 +61,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "ecomm.urls"
+WSGI_APPLICATION = "ecomm.wsgi.application"
 
 # ADDED: Required setting for django.contrib.sites
 SITE_ID = 1
@@ -84,7 +85,7 @@ TEMPLATES = [
 
 # Note: Your traceback showed 'ecomm' as your project. If 'urban_kicks' is wrong,
 # change this to "ecomm.wsgi.application"
-WSGI_APPLICATION = "urban_kicks.wsgi.application"
+
 
 # ---------------------------
 # Database Config
